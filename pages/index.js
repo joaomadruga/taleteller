@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,19 +21,13 @@ export default function Home() {
             alt="Dall-E generated image"
             fill
           />
-
+        
         <div className={styles.grid}>
-          <a
-            href="/prompt"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link className={styles.card} href='prompt'>
             <h2 className={inter.className}>
               Criar uma história <span>-&gt;</span>
             </h2>
-          </a>
-
+          </Link>
         </div>
       </main>
     </>
