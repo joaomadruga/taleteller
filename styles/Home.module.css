@@ -40,22 +40,6 @@
   font-family: var(--font-mono);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(25%, auto));
-  width: var(--max-width);
-  max-width: 100%;
-  z-index: 2;
-}
-
-.card {
-  padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
-  border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms;
-}
-
 .card span {
   display: inline-block;
   transition: transform 200ms;
@@ -229,4 +213,131 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+.homeMain {
+  background-color: #577B8A;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 72px;
+}
+
+.homeTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 64px;
+  text-align: center;
+  color: #DCF6F6;
+  max-width: 720px;
+  align-self: center;
+}
+
+.homeDiv {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.homeButton {
+  padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 48px;
+  border: none;
+  background: #E5E5EA;
+  transition: background 200ms, border 200ms;
+  align-self: flex-end;
+  text-decoration: none;
+  z-index: 2;
+}
+
+.homeButtonText {
+  color: #1B676A;
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.centeredDiv {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.promptMain {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('/promptBlurBackground.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mainButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 8px 12px;
+  gap: 3px;
+  background: #1B676A;
+  border-radius: 48px;
+  z-index: 1;
+  text-decoration: none;
+}
+
+.mainButtonText {
+  font-weight: normal;
+  font-size: 16px;
+  color: white;
+}
+
+.promptText {
+  font-style: normal;
+  font-size: 24px;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 7px;
+}
+
+.promptTextDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-bottom: 32px;
+  max-width: 800px;
+}
+
+.mainSelect {
+  padding: 6px 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-width: 1px 1px 3px 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #1B676A;
+  margin: 0 5px;
+  margin-bottom: -5px;
+}
+
+.mainInput {
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-width: 1px 1px 3px 1px;
+  border-style: solid;
+  border-color: #362F2C;
+  border-radius: 8px;
+  color: #1B676A;
+  margin: 0 5px;
+  margin-bottom: -5px;
 }
