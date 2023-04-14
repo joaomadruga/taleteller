@@ -284,8 +284,10 @@
 .mainButton {
   display: flex;
   flex-direction: row;
+  max-height: 56px;
   justify-content: center;
-  padding: 8px 12px;
+  align-items: center;
+  padding: 10px 24px;
   gap: 3px;
   background: #1B676A;
   border-radius: 48px;
@@ -340,4 +342,12 @@
   color: #1B676A;
   margin: 0 5px;
   margin-bottom: -5px;
+}
+
+.storyDiv {
+  background-color: #FFF9ED;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 64px; 
 }

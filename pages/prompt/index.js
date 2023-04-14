@@ -56,7 +56,7 @@ export default function Prompt() {
                         decidiu contar a todos sobre a sua história.”
                     </p>
                 </div>
-                <Link href="prompt" className={styles.mainButton}>
+                <Link href="/prompt/story/1" className={styles.mainButton}>
                     <h2 className={styles.mainButtonText}>
                         descobrir aventura
                     </h2>

@@ -3,10 +3,46 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
-
-const inter = Inter({ subsets: ['latin'] })
+import axios from "axios";
+import { useState } from 'react'
 
 export default function Home() {
+  const [imageSourceUrl, setImageSourceUrl] = useState("");
+
+  const testeOpenJourney2 = async (data) => {
+    const response = await fetch(
+    "https://api-inference.huggingface.co/models/prompthero/openjourney-v4",
+    {
+      headers: { Authorization: `Bearer ${process.env.API_KEY_OPEN_JOURNEY}` },
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+    );
+  
+    const result = await response.blob();
+    return result;
+  }
+  async function requisicao2() {
+    await testeOpenJourney2({"inputs": "Astronaut riding a horse"}).then((response) => {
+      // Use image
+      setImageSourceUrl(URL.createObjectURL(response));
+    });
+  }
+  function requisicao() {
+    const teste = axios.post('/api/generateStory', {
+      prompt: 'Qual a capital do Brasil?'
+    })
+    .then(async (response) => {
+      console.log('la vai')
+      console.log(response.data)
+      const image = await response.data.blob()
+      console.log(image);
+      setImageSourceUrl(URL.createObjectURL(image));
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  
   return (
     <>
       <Head>
@@ -18,6 +54,7 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
       </Head>
       <main className={styles.homeMain}>
+        <img src={imageSourceUrl}/>
         <Image
           src="/homeScreenBackground.png"
           alt="Dall-E generated image"
@@ -36,6 +73,9 @@ export default function Home() {
           height={20}
           />
         </Link>
+        <button style={{zIndex: 999}} onClick={() => requisicao2()}>
+          <h1>teste requisição</h1>
+        </button>
       </main>
     </>
   )
