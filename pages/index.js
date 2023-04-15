@@ -3,31 +3,8 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
-import axios from "axios";
-import { useState } from 'react'
 
 export default function Home() {
-  const [imageSourceUrl, setImageSourceUrl] = useState("/arrow-right-green.svg");
-  const [chatGPTText, setChatGPTText] = useState("")
-  async function generateStory() {
-    const response = await fetch('/api/generateStory', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: "mdjrny-v4 style a highly detailed matte painting of a man on a hill watching a rocket launch in the distance by studio ghibli, makoto shinkai, by artgerm, by wlop, by greg rutkowski, volumetric lighting, octane render, 4 k resolution, trending on artstation, masterpiece" }),
-      });
-
-      if (response.ok) {
-        const res = await response.json()
-        console.log(res)
-        setChatGPTText(res.responseChatGpt)
-        setImageSourceUrl(res.responseOpenJourney[0]);
-      } else {
-        console.error('Error:', response.statusText);
-      }
-  }
-  
   return (
     <>
       <Head>
@@ -39,15 +16,10 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
       </Head>
       <main className={styles.homeMain}>
-      <img
-          src={imageSourceUrl}
-          style={{zIndex: 9, width: 300, height: 300}}
-          alt="Generated image"
-        />
         <Image
           src="/homeScreenBackground.png"
           alt="Dall-E generated image"
-          style={{zIndex: 1, objectFit: "cover"}}
+          style={{ zIndex: 1, objectFit: "cover" }}
           quality={100}
           fill
         />
@@ -56,16 +28,12 @@ export default function Home() {
             criar uma história
           </h2>
           <Image
-          src="/arrow-right-green.svg"
-          alt="Arrow right image"
-          width={20}
-          height={20}
+            src="/arrow-right-green.svg"
+            alt="Arrow right image"
+            width={20}
+            height={20}
           />
         </Link>
-        <button style={{zIndex: 999}} onClick={() => generateStory()}>
-          <h1>teste requisição</h1>
-        </button>
-        <p style={{zIndex: 999}}>{chatGPTText}</p>
       </main>
     </>
   )
