@@ -1,45 +1,63 @@
-import * as utils from '@/utils/index.js';
+import { Configuration, OpenAIApi } from "openai";
+import Replicate from 'replicate';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Process a POST request
     console.log(req.body.prompt)
-    //let response = await testeChatGPT(req.body.prompt)
-    const response = await testeOpenJourney2({"inputs": "Astronaut riding a horse"}).then((response) => {
-      // Use image
-      console.log(response)
-    });
+    // A resposda do chatgpt vem em string, obviamente vai dar erro na imagem
+    let responseChatGpt = await generateChatGPT(req.body.prompt)
+    let responseOpenJourney = await generateImageLink(req.body.prompt)
 
-    res.status(200).json({ response })
+    res.status(200).json({responseChatGpt: responseChatGpt, responseOpenJourney: responseOpenJourney})
   } else {
     throw Error
   }
 }
 
-const testeChatGPT = async (prompt) => {
-  const data = await utils.chatGPT({prompt});
-  if (data.error) {
-    return data.error;
+const generateChatGPT = async (prompt) => {
+  const configuration = new Configuration({
+    apiKey: process.env.API_KEY_OPEN_AI,
+  });
+  const openai = new OpenAIApi(configuration);
+  try {
+    const response = await openai.createCompletion({
+      //max_tokens: process.env.MAX_TOKENS,
+      model: process.env.MODEL_OPEN_AI,
+      prompt: `${prompt} com até ${process.env.MAX_CHARACTERS} caracteres`,
+      temperature: 0.6,
+    });
+
+    return response.data.choices[0].text
+  } catch(error) {
+    return {error: `Ocorreu um erro na sua requisição: ${error.message}`}
   }
-  return data.response;
 }
 
-const testeOpenJourney = async () => {
-  const data = await utils.openJourney({prompt: "mdjrny-v4 style a highly detailed matte painting of a man on a hill watching a rocket launch in the distance by studio ghibli, makoto shinkai, by artgerm, by wlop, by greg rutkowski, volumetric lighting, octane render, 4 k resolution, trending on artstation, masterpiece"});
-  if (data.error) {
-    return alert(data.error);
+const generateImageLink = async (prompt) => {
+  try {
+    const replicate = new Replicate({
+      auth: process.env.REPLICATE_KEY,
+    });
+
+    const output = await replicate.run(
+      process.env.MODEL_OPEN_JOURNEY,
+      {
+        input: {
+          prompt: prompt,
+          width: 512,
+          height: 512,
+          num_inference_steps: 50,
+          num_outputs: 1,
+          guideance_scale: 14,
+        },
+      },
+    );
+
+    return output;
+  } catch (error) {
+    console.error(error);
+    throw Error;
   }
-  setText(data.response);
-}
-const testeOpenJourney2 = async (data) => {
-  const response = await fetch(
-  "https://api-inference.huggingface.co/models/prompthero/openjourney-v4",
-  {
-    headers: { Authorization: `Bearer ${process.env.API_KEY_OPEN_JOURNEY}` },
-    method: "POST",
-    body: JSON.stringify(data),
-  }
-  );
-  return response;
 }

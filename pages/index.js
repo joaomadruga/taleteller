@@ -7,40 +7,25 @@ import axios from "axios";
 import { useState } from 'react'
 
 export default function Home() {
-  const [imageSourceUrl, setImageSourceUrl] = useState("");
+  const [imageSourceUrl, setImageSourceUrl] = useState("/arrow-right-green.svg");
+  const [chatGPTText, setChatGPTText] = useState("")
+  async function generateStory() {
+    const response = await fetch('/api/generateStory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: "mdjrny-v4 style a highly detailed matte painting of a man on a hill watching a rocket launch in the distance by studio ghibli, makoto shinkai, by artgerm, by wlop, by greg rutkowski, volumetric lighting, octane render, 4 k resolution, trending on artstation, masterpiece" }),
+      });
 
-  const testeOpenJourney2 = async (data) => {
-    const response = await fetch(
-    "https://api-inference.huggingface.co/models/prompthero/openjourney-v4",
-    {
-      headers: { Authorization: `Bearer ${process.env.API_KEY_OPEN_JOURNEY}` },
-      method: "POST",
-      body: JSON.stringify(data),
-    }
-    );
-  
-    const result = await response.blob();
-    return result;
-  }
-  async function requisicao2() {
-    await testeOpenJourney2({"inputs": "Astronaut riding a horse"}).then((response) => {
-      // Use image
-      setImageSourceUrl(URL.createObjectURL(response));
-    });
-  }
-  function requisicao() {
-    const teste = axios.post('/api/generateStory', {
-      prompt: 'Qual a capital do Brasil?'
-    })
-    .then(async (response) => {
-      console.log('la vai')
-      console.log(response.data)
-      const image = await response.data.blob()
-      console.log(image);
-      setImageSourceUrl(URL.createObjectURL(image));
-    }, (error) => {
-      console.log(error);
-    });
+      if (response.ok) {
+        const res = await response.json()
+        console.log(res)
+        setChatGPTText(res.responseChatGpt)
+        setImageSourceUrl(res.responseOpenJourney[0]);
+      } else {
+        console.error('Error:', response.statusText);
+      }
   }
   
   return (
@@ -54,7 +39,11 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
       </Head>
       <main className={styles.homeMain}>
-        <img src={imageSourceUrl}/>
+      <img
+          src={imageSourceUrl}
+          style={{zIndex: 9, width: 300, height: 300}}
+          alt="Generated image"
+        />
         <Image
           src="/homeScreenBackground.png"
           alt="Dall-E generated image"
@@ -73,9 +62,10 @@ export default function Home() {
           height={20}
           />
         </Link>
-        <button style={{zIndex: 999}} onClick={() => requisicao2()}>
+        <button style={{zIndex: 999}} onClick={() => generateStory()}>
           <h1>teste requisição</h1>
         </button>
+        <p style={{zIndex: 999}}>{chatGPTText}</p>
       </main>
     </>
   )
