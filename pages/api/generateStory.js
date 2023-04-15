@@ -8,7 +8,9 @@ export default async function handler(req, res) {
     console.log(req.body.prompt)
     // A resposda do chatgpt vem em string, obviamente vai dar erro na imagem
     let responseChatGpt = await generateChatGPT(req.body.prompt)
+    console.log(responseChatGpt)
     let responseOpenJourney = await generateImageLink(req.body.prompt)
+    console.log(responseOpenJourney)
 
     res.status(200).json({responseChatGpt: responseChatGpt, responseOpenJourney: responseOpenJourney})
   } else {
