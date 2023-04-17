@@ -48,15 +48,16 @@ const Story = () => {
         </p>
         {page > 0 && (
           <button onClick={() => changePage('-')} className={styles.mainButton}>
-            <h2 className={styles.mainButtonText}>
-              Página anterior
-            </h2>
             <Image
-              src="/arrow-right-white.svg"
-              alt="Arrow right image"
+              src="/arrow-left-white.svg"
+              alt="Arrow left image"
               width={20}
               height={20}
             />
+            <h2 className={styles.mainButtonText}>
+              Página anterior
+            </h2>
+            
           </button>
         )}
 
@@ -66,8 +67,8 @@ const Story = () => {
               Página seguinte
             </h2>
             <Image
-              src="/arrow-left-white.svg"
-              alt="Arrow left image"
+              src="/arrow-right-white.svg"
+              alt="Arrow right image"
               width={20}
               height={20}
             />
