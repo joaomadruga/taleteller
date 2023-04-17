@@ -66,7 +66,7 @@ const generateImageLink = async (prompt, seed) => {
           prompt: prompt,
           width: 512,
           height: 512,
-          num_inference_steps: 50,
+          num_inference_steps: 1000000,
           num_outputs: 1,
           guideance_scale: 14,
           seed: seed 
