@@ -66,8 +66,8 @@ const Story = () => {
               Página seguinte
             </h2>
             <Image
-              src="/arrow-right-white.svg"
-              alt="Arrow right image"
+              src="/arrow-left-white.svg"
+              alt="Arrow left image"
               width={20}
               height={20}
             />
