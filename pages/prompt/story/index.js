@@ -37,7 +37,7 @@ const Story = () => {
         <Image
           src={currentImage}
           alt="Imagem da história"
-          style={{zIndex: 0, objectFit: "cover"}}
+          style={{zIndex: 0, objectFit: "fill"}}
           quality={100}
           fill
         />
