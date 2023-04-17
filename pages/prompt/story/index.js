@@ -6,10 +6,10 @@ import { useState } from 'react'
 const Story = () => {
   const router = useRouter();
   const [page, setPage] = useState(0);
-  const { responseChatGpt, responseOpenJourney } = router.query.data;
+  const { responseChatGpt, responseOpenJourney } = router.query;
 
-  const [currentImage, setCurrentImage] = useState("");
-  const [currentText, setCurrentText] = useState("");
+  const [currentImage, setCurrentImage] = useState(responseOpenJourney[0]);
+  const [currentText, setCurrentText] = useState(responseChatGpt[0]);
 
   const changePage = (button) => {
     let newPage;

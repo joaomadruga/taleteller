@@ -32,7 +32,7 @@ export default function Prompt() {
       
       route.push({
         pathname: '/prompt/story',
-        query: {data: storyGenerated}
+        query: storyGenerated
       }, '/prompt/story');
     } catch (error) {
       alert('Atenção', 'Ocorreu um erro. Tente novamente.')
