@@ -1,14 +1,14 @@
 import axios from "axios";
 
 import { openai, replicate } from "@/configuration";
-import { MAX_CHARACTERS, MAX_TOKENS, MODEL_OPEN_AI, MODEL_OPEN_JOURNEY } from "@/constants";
+
 
 export const chatGPT = async ({prompt}) => {
   try {
     const response = await openai.createCompletion({
-      max_tokens: MAX_TOKENS,
-      model: MODEL_OPEN_AI,
-      prompt: `${prompt} com até ${MAX_CHARACTERS} caracteres`,
+      //max_tokens: process.env.MAX_TOKENS,
+      model: process.env.MODEL_OPEN_AI,
+      prompt: `${prompt} com até ${process.env.MAX_CHARACTERS} caracteres`,
       temperature: 0.6,
     });
 
