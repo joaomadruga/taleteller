@@ -22,13 +22,13 @@ const Story = () => {
 
     if (newPage < 0) {
       newPage = 0;
-    } else if (newPage > responseChatGpt.length - 1) {
-      newPage = responseChatGpt.length - 1;
+    } else if (newPage > responseChatGpt?.length - 1) {
+      newPage = responseChatGpt?.length - 1;
     }
 
     setPage(newPage);
-    setCurrentText(responseChatGpt[newPage]);
-    setCurrentImage(responseOpenJourney[newPage]);
+    setCurrentText(responseChatGpt?.[newPage]);
+    setCurrentImage(responseOpenJourney?.[newPage]);
   }
 
   return (
@@ -60,7 +60,7 @@ const Story = () => {
           </button>
         )}
 
-        {page < responseChatGpt.length - 1 && (
+        {page < responseChatGpt?.length - 1 && (
           <button onClick={() => changePage('+')} className={styles.mainButton}>
             <h2 className={styles.mainButtonText}>
               Página seguinte
@@ -75,7 +75,7 @@ const Story = () => {
         )}
 
         <h2 className={styles.paginationText}>
-          {page + 1}/{responseChatGpt.length}
+          {page + 1}/{responseChatGpt?.length}
         </h2>
       </div>
     </main>
