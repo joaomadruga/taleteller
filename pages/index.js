@@ -20,7 +20,6 @@ export default function Home() {
 
       if (response.ok) {
         const res = await response.json()
-        console.log(res)
         setChatGPTText(res.responseChatGpt)
         setImageSourceUrl(res.responseOpenJourney[0]);
       } else {

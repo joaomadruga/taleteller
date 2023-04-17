@@ -4,16 +4,13 @@ import Replicate from 'replicate';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    // Process a POST request
     const seed = Math.floor(Math.random() * 9999999) + 1;
-    console.log(req.body.prompt)
     const storyScript = await generateStoryScript(req.body.prompt);
     
     const listOfImages = await storyScript.map(async (paragraph) => {
       if (paragraph) {
         let responseImageDescription = await generateImageDescription(paragraph, req.body.age, req.body.name, req.body.characteristics);
         let responseOpenJourney = await generateImageLink("mdjrny-v4 style. " + responseImageDescription + ". Cute pixar style illustration, children's book, illustration, disney, soft colors, no characters, no letters, no phrases, no words --ar 3:2", seed);
-        console.log(responseOpenJourney);
         return responseOpenJourney
       }
     });
@@ -26,7 +23,6 @@ export default async function handler(req, res) {
 
 const generateStoryScript = async (prompt) => {
   let responseChatGpt = await generateChatGPT(`Gere uma história, divididas no máximo em 10 paragrafos, com até ${process.env.MAX_CHARACTERS} separados por uma linha, com esse inicializador: ${prompt}`)
-  console.log(responseChatGpt)
   return responseChatGpt.split('\n').filter((paragraph) => {
     if (paragraph.length > 5) {      
       return true;
@@ -37,7 +33,6 @@ const generateStoryScript = async (prompt) => {
 
 const generateImageDescription = async (prompt, age, name, characteristics) => {
   let responseChatGpt = await generateChatGPT(`Descreva, em inglês, como seria uma imagem para representar o seguinte cenário, onde ${name} tem ${age} anos e possua as características físicas ${characteristics}: ${prompt}`)
-  console.log(responseChatGpt)
   return responseChatGpt
 }
 
@@ -53,7 +48,6 @@ const generateChatGPT = async (prompt) => {
       prompt: prompt,
       temperature: 0.6,
     });
-    console.log(response.data.choices)
     return response.data.choices[0].text
   } catch(error) {
     return {error: `Ocorreu um erro na sua requisição: ${error.message}`}
