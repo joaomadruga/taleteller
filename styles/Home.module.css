@@ -293,6 +293,7 @@
   border-radius: 48px;
   z-index: 1;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .mainButtonText {
@@ -350,4 +351,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 40px 64px; 
+}
+
+.paginationText {
+  font-weight: bold;
+  font-size: 24px;
+  color: #1B676A;
 }
