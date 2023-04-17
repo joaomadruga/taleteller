@@ -1,47 +1,85 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
 import { useState } from 'react'
 
 const Story = () => {
-    const route = useRouter();
-    console.log(route.query)
-    const { responseChatGpt, responseOpenJourney } = route.query
-    console.log(responseChatGpt)
-    console.log(responseOpenJourney)
-    const [currentImage, setCurrentImage] = useState("");
-    const [currentText, setCurrentText] = useState("");
+  const router = useRouter();
+  const [page, setPage] = useState(0);
+  const { responseChatGpt, responseOpenJourney } = router.query.data;
 
-    return (
-            <main style={{height: '100vh', display: "flex", flexDirection: "column"}}>
-                <div style={{width: '100%', height: '100%', position: 'relative'}}>
-                    <Image
-                    src="/test.png"
-                    alt="Dall-E generated image"
-                    style={{zIndex: 0, objectFit: "cover"}}
-                    quality={100}
-                    fill
-                    />
-                </div>
-                <div className={styles.storyDiv}>
-                    <p className={styles.promptText} style={{maxWidth: '70%', textAlign: 'left'}}>
-                    ”Era uma vez um menino curioso chamado Max. Max adorava explorar e descobrir coisas novas no mundo ao seu redor. Ele morava em uma pequena cidade cercada por florestas e montanhas, e amava nada mais do que se aventurar no deserto para ver o que podia encontrar.”
-                    </p>
-                    <Link href={`/prompt/story/`} className={styles.mainButton}>
-                        <h2 className={styles.mainButtonText}>
-                            próxima página
-                        </h2>
-                        <Image
-                            src="/arrow-right-white.svg"
-                            alt="Arrow right image"
-                            width={20}
-                            height={20}
-                        />
-                    </Link>
-                </div>
-            </main>
-    )
+  const [currentImage, setCurrentImage] = useState("");
+  const [currentText, setCurrentText] = useState("");
+
+  const changePage = (button) => {
+    let newPage;
+
+    if (button === '-') {
+      newPage = page - 1;
+    } else {
+      newPage = page + 1;
+    }
+
+    if (newPage < 0) {
+      newPage = 0;
+    } else if (newPage > data.length - 1) {
+      newPage = data.length - 1;
+    }
+
+    setPage(newPage);
+    setCurrentText(responseChatGpt[newPage]);
+    setCurrentImage(responseOpenJourney[newPage]);
+  }
+
+  return (
+    <main style={{height: '100vh', display: "flex", flexDirection: "column"}}>
+      <div style={{width: '100%', height: '100%', position: 'relative'}}>
+        <Image
+          src={currentImage}
+          alt="Imagem da história"
+          style={{zIndex: 0, objectFit: "cover"}}
+          quality={100}
+          fill
+        />
+      </div>
+      <div className={styles.storyDiv}>
+        <p className={styles.promptText} style={{maxWidth: '70%', textAlign: 'left'}}>
+          {currentText}
+        </p>
+        {page > 0 && (
+          <button onClick={() => changePage('-')} className={styles.mainButton}>
+            <h2 className={styles.mainButtonText}>
+              Página anterior
+            </h2>
+            <Image
+              src="/arrow-right-white.svg"
+              alt="Arrow right image"
+              width={20}
+              height={20}
+            />
+          </button>
+        )}
+
+        {page < data.length - 1 && (
+          <button onClick={() => changePage('+')} className={styles.mainButton}>
+            <h2 className={styles.mainButtonText}>
+              Página seguinte
+            </h2>
+            <Image
+              src="/arrow-right-white.svg"
+              alt="Arrow right image"
+              width={20}
+              height={20}
+            />
+          </button>
+        )}
+
+        <h2 className={styles.paginationText}>
+          {page + 1}/{data.length}
+        </h2>
+      </div>
+    </main>
+  )
 }
 
 export default Story
