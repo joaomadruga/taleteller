@@ -294,6 +294,7 @@
   z-index: 1;
   text-decoration: none;
   cursor: pointer;
+  border: none;
 }
 
 .mainButtonText {
