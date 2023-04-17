@@ -5,9 +5,9 @@ import { useState } from 'react'
 
 const Story = () => {
   const router = useRouter();
-  const [page, setPage] = useState(0);
   const { responseChatGpt, responseOpenJourney } = router.query;
-
+  
+  const [page, setPage] = useState(0);
   const [currentImage, setCurrentImage] = useState(responseOpenJourney[0]);
   const [currentText, setCurrentText] = useState(responseChatGpt[0]);
 

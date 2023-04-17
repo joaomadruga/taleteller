@@ -6,14 +6,13 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const seed = Math.floor(Math.random() * 9999999) + 1;
     const storyScript = await generateStoryScript(req.body.prompt);
-    
-    const listOfImages = await storyScript.map(async (paragraph) => {
-      if (paragraph) {
-        let responseImageDescription = await generateImageDescription(paragraph, req.body.age, req.body.name, req.body.characteristics);
-        let responseOpenJourney = await generateImageLink("mdjrny-v4 style. " + responseImageDescription + ". Cute pixar style illustration, children's book, illustration, disney, soft colors, no characters, no letters, no phrases, no words --ar 3:2", seed);
-        return responseOpenJourney
-      }
-    });
+    const listOfImages = [];
+
+    for (let i = 0; i < storyScript.length; i++) {
+      let responseImageDescription = await generateImageDescription(storyScript[i], req.body.age, req.body.name, req.body.characteristics);
+      let responseOpenJourney = await generateImageLink("mdjrny-v4 style. " + responseImageDescription + ". Cute pixar style illustration, children's book, illustration, disney, soft colors, no characters, no letters, no phrases, no words --ar 3:2", seed);
+      listOfImages.push(responseOpenJourney);
+    }
     
     res.status(200).json({responseChatGpt: storyScript, responseOpenJourney: listOfImages})
   } else {
@@ -60,7 +59,7 @@ const generateImageLink = async (prompt, seed) => {
       auth: process.env.REPLICATE_KEY,
     });
 
-    const output = await replicate.run(
+    const response = await replicate.run(
       process.env.MODEL_OPEN_JOURNEY,
       {
         input: {
@@ -75,7 +74,7 @@ const generateImageLink = async (prompt, seed) => {
       },
     );
     
-    return output;
+    return response[0];
   } catch (error) {
     console.error(error);
     throw Error;
